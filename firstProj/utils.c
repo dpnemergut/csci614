@@ -1,27 +1,68 @@
-/* -----------------------------------
- CSIS 614 - Advanced Operating Systems
- Spring 2015 (Tony Leclerc)
- utils.c implementation file
- Assignment 1
- -----------------------------------
-*/
+/**
+ *  utils.c
+ *
+ *  Loads system libraries and implements function prototypes.
+ *
+ *  @author Daniel Nemergut
+ *  CSIS 614 - Assignment 1
+ */
 
-/* ----------------------------------------------
- These are the ONLY system libraries that can be used.
- Under no circumstances can additional libraries be included
-*/
-
-#include <unistd.h>	// for 'basic' I/O functions
+#include <unistd.h>
 #include <fcntl.h>
-#include <stdlib.h> 	// atof() function, malloc()
-#include <math.h>	// math functions (eg. sin(), cos())
+#include <stdlib.h>
+#include <math.h>
 
-#include "utils.h"	// your own functions
+#include "utils.h"
 
-// Now you put your implementation of the function prototypes here...
 
-/*
- Note the directions/steps in utils.h for each function.  Also, a
- remainder, you can only use the open(), write(), read(), and close()
- I/O system calls.
-*/
+int readVect(char* file_name, v_struct** p_vec_array_ptr) {
+  int filedesc;
+  char errmsg[100] = "There was an error opening ";
+
+  filedesc = open(file_name, O_RDONLY);
+
+  if(filedesc < 0) {
+    strconcat(errmsg, errmsg, file_name);
+    strconcat(errmsg, errmsg, "\n");
+    write(2, errmsg, strlength(errmsg));
+  }
+
+  return filedesc;
+}
+
+double x_component(v_struct* p_vector) {
+  return 0.0;
+}
+
+double y_component(v_struct* p_vector) {
+  return 0.0;
+}
+
+int strlength(char* s) {
+  int length = 0;
+
+  while(*s != '\0') {
+    length++;
+    s++;
+  }
+
+  return length;
+}
+
+void strconcat(char* s, char* s1, char* s2) {
+  while(*s1 != '\0') {
+    *s = *s1;
+    s++;
+    s1++;
+  }
+
+  while(*s2 != '\0') {
+    *s = *s2;
+    s++;
+    s2++;
+  }
+
+  *s = '\0';
+
+  return;
+}
