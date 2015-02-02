@@ -10,6 +10,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
 
 #include "utils.h"
 
@@ -44,16 +46,41 @@ int main(int argc, char** argv) {
 
   int i;
   int num_vecs;
+
+  double x;
+  double y;
+
+  char str[50];
+
   v_struct* p_vec_array;
-  char str[10];
 
   num_vecs = readVect(argv[1], &p_vec_array);
 
-  ftoa(str, 13.2, 1);
-  write(2, *str, 3);
+  for(i=0; i<=num_vecs; i++) {
+    write(2, "r = ", 4);
+    ftoa(str, (*p_vec_array).r, 2);
+    write(2, str, strlength(str));
 
-  for(i=0; i<num_vecs; i++) {
+    write(2, ", theta = ", 10);
+    ftoa(str, (*p_vec_array).theta, 2);
+    write(2, str, strlength(str));
 
+    write(2, " degrees, theta = ", 18);
+    ftoa(str, (*p_vec_array).theta * M_PI / 180.0, 2);
+    write(2, str, strlength(str));
+
+    write(2, " radians, x_comp = ", 19);
+    x = x_component(p_vec_array);
+    ftoa(str, x, 2);
+    write(2, str, strlength(str));
+
+    write(2, ", y_comp = ", 11);
+    y = y_component(p_vec_array);
+    ftoa(str, y, 2);
+    strconcat(str, str, "\n");
+    write(2, str, strlength(str));
+
+    p_vec_array++;
   }
 
   return 0;

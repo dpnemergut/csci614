@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdio.h>
 
 #include "utils.h"
 
@@ -33,7 +34,7 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
   }
 
   // Read through the file once to construct p_vec_array
-  while(read(filedesc, current, 1) != 0) {
+  while(read(filedesc, current, 1) > 0) {
     if(*current == '\n') {
       numlines++;
     }
@@ -42,8 +43,18 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
   // Create p_vec_array
   *p_vec_array_ptr = (v_struct*)malloc(numlines * sizeof(v_struct));
 
+  // Reset the file for reading
+  close(filedesc);
+  filedesc = open(file_name, O_RDONLY);
+
+  if(filedesc < 0) {
+    strconcat(errmsg, errmsg, file_name);
+    strconcat(errmsg, errmsg, "\n");
+    write(2, errmsg, strlength(errmsg));
+  }
+
   // Read each character until a comma or newline is hit and then store it
-  while(read(filedesc, current, 1) != 0) {
+  while(read(filedesc, current, 1) > 0) {
     if(*current == ',') {
       // Store a magnitude
       (**p_vec_array_ptr).r = atof(store);
@@ -60,7 +71,6 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
       }
 
       charcount = 0;
-      numlines++;
     } else if(*current == ' ') {
       // Skip spaces
       continue;
@@ -70,15 +80,25 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
     }
   }
 
+  // Store final direction before EOF
+  (**p_vec_array_ptr).theta = atof(store);
+
+  // Ensure direction is -360 < theta < 360
+  if((**p_vec_array_ptr).theta < -360) {
+    (**p_vec_array_ptr).theta += 360;
+  } else if((**p_vec_array_ptr).theta > 360) {
+    (**p_vec_array_ptr).theta -= 360;
+  }
+
   return numlines;
 }
 
 double x_component(v_struct* p_vector) {
-  return 0.0;
+  return (*p_vector).r * cos((*p_vector).theta * M_PI / 180.0);
 }
 
 double y_component(v_struct* p_vector) {
-  return 0.0;
+  return (*p_vector).r * sin((*p_vector).theta * M_PI / 180.0);
 }
 
 int strlength(char* s) {
@@ -114,8 +134,12 @@ void strconcat(char* s, char* s1, char* s2) {
 }
 
 void ftoa(char* str, double x, int d) {
-  while(x >= 10) {
-    x /= 10;
+  // Temporarily using sprintf
+  sprintf(str, "%.2lf", x);
+
+  /*
+  while(x >= 10.0) {
+    x /= 10.0;
     d++;
   }
 
@@ -129,6 +153,7 @@ void ftoa(char* str, double x, int d) {
     str++;
     d--;
   }
+  */
 
   return;
 }
