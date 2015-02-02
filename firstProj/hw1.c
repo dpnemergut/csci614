@@ -10,13 +10,14 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <stdio.h>
 #include <math.h>
 
 #include "utils.h"
 
 /**
  *  Main function.
+ *  Goes through the file provided in argv[1] and constructs vectors from it.
+ *  Then prints the vectors and components in a readable format.
  *
  *  @param int argc The number of arguments passed to the program.
  *  @param char** argv The list of arguments passed to the program.
@@ -25,25 +26,6 @@
  */
 
 int main(int argc, char** argv) {
-  /*
-   Steps to be performed
-   	1. Define variables (including arrays)
-	2. Using read() function in utils.h, read vectors defined in text file
-		- the location of the text file (i.e. vectors.txt) must be defined in argv[1]
-	3. Loop through array of vector structs and print to console:
-	   - vector magnitude (using only 2 decimal places)
-	   - vector direction (in radians using only 2 decimal places)
-	   - vector direction (in degrees using only 2 decimal places)
-	   - Using compute_x() function in utils.h, x component
-             value (using only 2 decimal places)
-	   - Using compute_y() function in utils.h, y component
-             value (using only 2 decimal places) in the following format
-		r = <value>, theta = <value> degrees, <value> radians, x_comp = <value>, y_comp = <value>
-
-	     For example:
-		r = 10.00, theta = 180.00 degrees, theta = 3.14 radians, x_comp = -10.00, y_comp = 0.00
-  */
-
   int i;
   int num_vecs;
 
