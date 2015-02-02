@@ -60,3 +60,12 @@ int strlength(char* s);
  *  @param char* s2: The second string to be concatenated.
  */
 void strconcat(char* s, char* s1, char* s2);
+
+/**
+ *  Converts a double to a string with a specified number of decimal places.
+ *
+ *  @param char* str: The string to hold the converted one.
+ *  @param double x: The double to be converted.
+ *  @param int d: The number of decimal places to keep.
+ */
+void ftoa(char* str, double x, int d);

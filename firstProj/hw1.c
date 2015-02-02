@@ -45,11 +45,15 @@ int main(int argc, char** argv) {
   int i;
   int num_vecs;
   v_struct* p_vec_array;
+  char str[10];
 
-  num_vecs = readVect("vectors.tx", &p_vec_array);
+  num_vecs = readVect(argv[1], &p_vec_array);
+
+  ftoa(str, 13.2, 1);
+  write(2, *str, 3);
 
   for(i=0; i<num_vecs; i++) {
-    write(1, "YAY!\n", 5);
+
   }
 
   return 0;
