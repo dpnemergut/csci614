@@ -10,7 +10,6 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
-#include <math.h>
 
 #include "utils.h"
 
@@ -48,7 +47,7 @@ int main(int argc, char** argv) {
     write(2, str, strlength(str));
 
     write(2, " degrees, theta = ", 18);
-    ftoa(str, (*p_vec_array).theta * M_PI / 180.0, 2);
+    ftoa(str, degtorad((*p_vec_array).theta), 2);
     write(2, str, strlength(str));
 
     write(2, " radians, x_comp = ", 19);

@@ -99,11 +99,11 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
 }
 
 double x_component(v_struct* p_vector) {
-  return (*p_vector).r * cos((*p_vector).theta * M_PI / 180.0);
+  return (*p_vector).r * cos(degtorad((*p_vector).theta));
 }
 
 double y_component(v_struct* p_vector) {
-  return (*p_vector).r * sin((*p_vector).theta * M_PI / 180.0);
+  return (*p_vector).r * sin(degtorad((*p_vector).theta));
 }
 
 int strlength(char* s) {
@@ -151,8 +151,6 @@ void ftoa(char* str, double x, int d) {
   while(d > 0) {
     *str = d;
     str++;
-    write(2, str, 10);
-    return;
     *str = (int)x % 10;
     x *= 10;
     str++;
@@ -161,4 +159,9 @@ void ftoa(char* str, double x, int d) {
   */
 
   return;
+}
+
+double degtorad(double degrees) {
+  double radians = degrees * M_PI / 180.0;
+  return radians;
 }
