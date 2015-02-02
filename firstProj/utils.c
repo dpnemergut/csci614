@@ -70,6 +70,8 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
         (**p_vec_array_ptr).theta -= 360;
       }
 
+      // Use next v_struct
+      (*p_vec_array_ptr)++;
       charcount = 0;
     } else if(*current == ' ') {
       // Skip spaces
@@ -89,6 +91,9 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
   } else if((**p_vec_array_ptr).theta > 360) {
     (**p_vec_array_ptr).theta -= 360;
   }
+
+  // Reset the pointer location
+  (*p_vec_array_ptr) -= numlines;
 
   return numlines;
 }
