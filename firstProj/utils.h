@@ -68,7 +68,7 @@ void strconcat(char* s, char* s1, char* s2);
  *  @param double x: The double to be converted.
  *  @param int d: The number of decimal places to keep.
  */
-void ftoa(char* str, double x, int d);
+void ftoa(char* str, double x);
 
 /**
  *  Converts an angle from degrees to radians.

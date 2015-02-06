@@ -18,10 +18,11 @@
 
 int readVect(char* file_name, v_struct** p_vec_array_ptr) {
   int filedesc;
+  int filedesc2;
   int numlines = 0;
   int charcount = 0;
 
-  char current[0];
+  char current[1];
   char store[10];
   char errmsg[100] = "There was an error opening ";
 
@@ -45,16 +46,16 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
 
   // Reset the file for reading
   close(filedesc);
-  filedesc = open(file_name, O_RDONLY);
+  filedesc2 = open(file_name, O_RDONLY);
 
-  if(filedesc < 0) {
+  if(filedesc2 < 0) {
     strconcat(errmsg, errmsg, file_name);
     strconcat(errmsg, errmsg, "\n");
     write(2, errmsg, strlength(errmsg));
   }
 
   // Read each character until a comma or newline is hit and then store it
-  while(read(filedesc, current, 1) > 0) {
+  while(read(filedesc2, current, 1) > 0) {
     if(*current == ',') {
       // Store a magnitude
       (**p_vec_array_ptr).r = atof(store);
@@ -81,6 +82,8 @@ int readVect(char* file_name, v_struct** p_vec_array_ptr) {
       charcount++;
     }
   }
+
+  close(filedesc2);
 
   // Store final direction before EOF
   (**p_vec_array_ptr).theta = atof(store);
@@ -138,30 +141,14 @@ void strconcat(char* s, char* s1, char* s2) {
   return;
 }
 
-void ftoa(char* str, double x, int d) {
-  // Temporarily using sprintf
+void ftoa(char* str, double x) {
   sprintf(str, "%.2lf", x);
-
-  /*
-  while(x >= 10.0) {
-    x /= 10.0;
-    d++;
-  }
-
-  while(d > 0) {
-    *str = d;
-    str++;
-    *str = (int)x % 10;
-    x *= 10;
-    str++;
-    d--;
-  }
-  */
 
   return;
 }
 
 double degtorad(double degrees) {
   double radians = degrees * M_PI / 180.0;
+
   return radians;
 }
