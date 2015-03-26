@@ -1,3 +1,12 @@
+/**
+ * dining.c
+ *
+ * A dining philosophers simulation
+ *
+ * @author Daniel Nemergut
+ * CSIS 614 - Assignment 2
+ */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
